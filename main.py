@@ -1,30 +1,27 @@
-from PIL import Image, ImageTk
-import tkinter as tk
-from complexFractal import *
-import matplotlib.cm
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import fractal_display.complex_plane as cplxp
+import fractal_display.complex_fractal as cplxf
+from fractal_display.viewport import Viewport
 
-
-def denormalize(palette):
-    return [
-        tuple(int(channel * 255) for channel in color)
-        for color in palette
-    ]
-
-
-fractal = MandelbrotSet(max_iterations=256)
-
-image = Image.new(mode="RGB", size=(720, 512))
-
-colormap = matplotlib.cm.get_cmap("twilight").colors
-palette = denormalize(colormap)
-
-for pixel in Viewport(image, center=-0.7435 + 0.1314j, zoom=200000):
-    stability = fractal.stability(complex(pixel))
-    index = int(min(stability * len(palette), len(palette) - 1))
-    pixel.color = palette[index % len(palette)]
-
-root = tk.Tk()
-image = ImageTk.PhotoImage(image)
-label = tk.Label(root, image=image)
-label.pack(expand = True, fill = tk.BOTH)
-root.mainloop()
+def test10(): 
+    mpl.rcParams['toolbar'] = 'None'
+    
+    fractal = cplxf.MandelbrotSet(256)
+    viewport = Viewport(fractal, size = (1028,720), resolution = (1028,720), offset = (-0.7435,0.1314), zoom = 200000)
+    image = viewport.img_grey()
+    plt.imshow(image, cmap='binary')
+    plt.axis("off")
+    plt.tight_layout(pad=0)
+    plt.show()
+    
+def test20():
+    mpl.rcParams['toolbar'] = 'None'
+    
+    fractal = cplxf.JuliaSet(c=0.3+0.5j)
+    viewport = Viewport(fractal, size = (4,3), resolution = (720,540), offset = (0,0), zoom = 1, colormap = 'plasma')
+    image = viewport.img_rgb()
+    plt.imshow(image, cmap='plasma')
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
