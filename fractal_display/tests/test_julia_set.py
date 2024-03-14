@@ -73,7 +73,7 @@ class TestJuliaSet(unittest.TestCase):
     
     def test_str(self):
         fractal = cplxf.JuliaSet()
-        self.assertEqual(str(fractal), f'Julia set ; c = {fractal.c} ; max_iterations = {fractal.max_iterations}')
+        self.assertEqual(str(fractal), f'Julia_c{fractal.c}_maxIt{fractal.max_iterations}')
 
 if __name__ == '__main__':
     unittest.main()

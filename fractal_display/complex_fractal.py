@@ -105,7 +105,7 @@ class JuliaSet(Fractal):
         return self.max_iterations
     
     def __str__(self) -> str:
-        return f'Julia set ; c = {self.c} ; max_iterations = {self.max_iterations}'
+        return f'Julia_c{self.c}_maxIt{self.max_iterations}'
 
 class MandelbrotSet(Fractal):
     """Mandelbrot set class.
@@ -170,4 +170,4 @@ class MandelbrotSet(Fractal):
         return self.max_iterations
     
     def __str__(self) -> str:
-        return f'Mandelbrot set ; max_iterations = {self.max_iterations}'
+        return f'Mandelbrot_maxIt{self.max_iterations}'

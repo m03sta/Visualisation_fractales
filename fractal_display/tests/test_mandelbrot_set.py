@@ -62,7 +62,7 @@ class TestMandelbrotSet(unittest.TestCase):
     
     def test_str(self):
         fractal = cplxf.MandelbrotSet()
-        self.assertEqual(str(fractal), f'Mandelbrot set ; max_iterations = {fractal.max_iterations}')
+        self.assertEqual(str(fractal), f'Mandelbrot_maxIt{fractal.max_iterations}')
 
 if __name__ == '__main__':
     unittest.main()
