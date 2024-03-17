@@ -9,11 +9,18 @@ from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from fractal_display.viewport import Viewport
-from fractal_display import complex_fractal as cplxf
+from .viewport import Viewport
+from . import complex_fractal as cplxf
 
 
 class GUI(tk.Tk):
+    """GUI class.
+    
+    Provides a TKinter window yo display complex fractals.
+    
+    Objects declared as attributes (name preceded by 'self.') are used as global variables:
+    they are both declared in constructor and used inside methods.
+    """
     def __init__(self):
         super().__init__()
         # Window grid configuration
@@ -30,9 +37,9 @@ class GUI(tk.Tk):
         
         self.fractal = cplxf.MandelbrotSet()
         self.viewport = Viewport()
-        self.image = []
+        self.image = [] # image of fractal
         
-        ### IMAGE [0-5,0] ######################################################################
+        ### IMAGE [0-7,0] ######################################################################
         frame_image = tk.Frame(self, bg='white')
         frame_image.grid(row=0, column=0, rowspan=8, sticky=tk.NSEW)
         
@@ -90,7 +97,7 @@ class GUI(tk.Tk):
         frame_resolution_right = tk.Frame(frame_resolution)
         frame_resolution_right.grid(row=0, column=2, sticky=tk.NSEW)
         
-        self.const_resolutions = [(640,480), (1024,768)]
+        self.const_resolutions = [(640,480), (1024,768), (2048,1536)]
         self.var_resolution = self.const_resolutions[0]
         self.strvar_resolution = tk.StringVar()
         self.strvar_resolution.set(str(self.var_resolution[0]) + 'x' + str(self.var_resolution[1]))
@@ -100,9 +107,9 @@ class GUI(tk.Tk):
         label_resolution_value = tk.Label(frame_resolution_center, textvariable=self.strvar_resolution)
         label_resolution_value.pack(expand=True)
         
-        button_highRes = tk.Button(frame_resolution_right, text='+', width=2, command=self.highRes)
+        button_highRes = tk.Button(frame_resolution_right, text='+', width=2, command=self.higherRes)
         button_highRes.pack(side=tk.RIGHT)
-        button_lowRes = tk.Button(frame_resolution_right, text='-', width=2, command=self.lowRes)
+        button_lowRes = tk.Button(frame_resolution_right, text='-', width=2, command=self.lowerRes)
         button_lowRes.pack(side=tk.RIGHT)
         
         ### COLOR [2,1] ###############################################################################
@@ -127,9 +134,8 @@ class GUI(tk.Tk):
         button_zoomOut = tk.Button(frame_zoom, text='-', width=2, command=self.zoomOut)
         button_zoomOut.pack(side=tk.RIGHT)
 
-        self.var_zoom = 1.0
         self.strvar_zoom = tk.StringVar()
-        self.strvar_zoom.set(str(self.var_zoom))
+        self.strvar_zoom.set(str(1.0)) # zoom default value: 1.0
 
         self.entry_zoom = tk.Entry(frame_zoom, textvariable=self.strvar_zoom)
         self.entry_zoom.pack(side=tk.RIGHT)
@@ -169,23 +175,21 @@ class GUI(tk.Tk):
         button_moveDown = tk.Button(frame_offset_right, text='\U00002193', width=3, height=1, command=self.moveDown)
         button_moveDown.grid(row=2, column=1)
 
-        self.var_offsetX = 0
-        self.var_offsetY = 0
         self.strvar_offsetX = tk.StringVar()
         self.strvar_offsetY = tk.StringVar()
-        self.strvar_offsetX.set(str(self.var_offsetX))
-        self.strvar_offsetY.set(str(self.var_offsetY))
+        self.strvar_offsetX.set(str(0)) # x offset dfault value: 0
+        self.strvar_offsetY.set(str(0)) # y offset dfault value: 0
         
         label_offset = tk.Label(frame_offset_left, text='Offset')
         label_offset.pack(side=tk.LEFT)
         
         label_offset_leftpar = tk.Label(frame_offset_center, text='(')
         label_offset_leftpar.pack(side=tk.LEFT)
-        self.entry_offsetX = tk.Entry(frame_offset_center, width=6, textvariable=self.strvar_offsetX)
+        self.entry_offsetX = tk.Entry(frame_offset_center, width=7, textvariable=self.strvar_offsetX)
         self.entry_offsetX.pack(side=tk.LEFT)
         label_offset_comma = tk.Label(frame_offset_center, text=',')
         label_offset_comma.pack(side=tk.LEFT)
-        self.entry_offsetY = tk.Entry(frame_offset_center, width=6, textvariable=self.strvar_offsetY)
+        self.entry_offsetY = tk.Entry(frame_offset_center, width=7, textvariable=self.strvar_offsetY)
         self.entry_offsetY.pack(side=tk.LEFT)
         label_offset_rightpar = tk.Label(frame_offset_center, text=')')
         label_offset_rightpar.pack(side=tk.LEFT)
@@ -194,21 +198,21 @@ class GUI(tk.Tk):
         frame_apply = tk.Frame(self)
         frame_apply.grid(row=5, column=1, sticky=tk.NSEW)
 
-        button_apply = tk.Button(frame_apply, text='Apply changes', width= 12, command=self.apply)
+        button_apply = tk.Button(frame_apply, text='Apply changes', width=12, command=self.apply)
         button_apply.pack(expand=True)
         
         ### SAVE IMAGES [6,1] #####################################################################
         frame_save = tk.Frame(self)
         frame_save.grid(row=6, column=1, sticky=tk.NSEW)
         
-        button_save = tk.Button(frame_save, text='Save image', width= 12, command=self.saveImage)
+        button_save = tk.Button(frame_save, text='Save image', width=12, command=self.saveImage)
         button_save.pack(expand=True)
         
         ### QUIT [7,1] #####################################################################
         frame_quit = tk.Frame(self)
         frame_quit.grid(row=7, column=1, sticky=tk.NSEW)
         
-        button_quit = tk.Button(frame_quit, text='QUIT', width= 12, command=self.destroy)
+        button_quit = tk.Button(frame_quit, text='QUIT', width=12, command=self.destroy)
         button_quit.pack(expand=True)
  
     def mandelbrot(self):
@@ -217,35 +221,38 @@ class GUI(tk.Tk):
         self.fractal = cplxf.MandelbrotSet()
     def julia(self):
         self.label_c.pack(side=tk.LEFT)
-        self.entry_c.insert(0, '0') # c default value
+        self.entry_c.delete(0, tk.END)
+        self.entry_c.insert(0, '0') # c default value: 0
         self.entry_c.pack(side=tk.RIGHT)
         self.fractal = cplxf.JuliaSet()
 
     def zoomIn(self):
-        self.var_zoom = self.var_zoom + 0.5
-        self.strvar_zoom.set(str(self.var_zoom)) # no maximum zoom value
+        var_zoom = float(self.entry_zoom.get()) + 0.5
+        self.strvar_zoom.set(str(var_zoom)) # no maximum zoom value
     def zoomOut(self):
-        self.var_zoom = max(self.var_zoom - 0.5, 0.5) # minimum zoom value : 0.5
-        self.strvar_zoom.set(str(self.var_zoom))
+        var_zoom = max(float(self.entry_zoom.get()) - 0.5, 0.5) # minimum zoom value: 0.5
+        self.strvar_zoom.set(str(var_zoom))
 
     def moveRight(self):
-        self.var_offsetX += 0.1 / self.var_zoom
-        self.strvar_offsetX.set(str(round(self.var_offsetX, 4)))
+        var_offsetX = float(self.entry_offsetX.get()) + 0.1 / float(self.entry_zoom.get())
+        self.strvar_offsetX.set(str(round(var_offsetX, 4)))
     def moveLeft(self):
-        self.var_offsetX -= 0.1 / self.var_zoom
-        self.strvar_offsetX.set(str(round(self.var_offsetX, 4)))
+        var_offsetX = float(self.entry_offsetX.get()) - 0.1 / float(self.entry_zoom.get())
+        self.strvar_offsetX.set(str(round(var_offsetX, 4)))
     def moveUp(self):
-        self.var_offsetY += 0.1 / self.var_zoom
-        self.strvar_offsetY.set(str(round(self.var_offsetY, 4)))
+        var_offsetY = float(self.entry_offsetY.get()) + 0.1 / float(self.entry_zoom.get())
+        self.strvar_offsetY.set(str(round(var_offsetY, 4)))
     def moveDown(self):
-        self.var_offsetY -= 0.1 / self.var_zoom
-        self.strvar_offsetY.set(str(round(self.var_offsetY, 4)))
+        var_offsetY = float(self.entry_offsetY.get()) - 0.1 / float(self.entry_zoom.get())
+        self.strvar_offsetY.set(str(round(var_offsetY, 4)))
     
-    def highRes(self):
-        self.var_resolution = self.const_resolutions[1]
+    def higherRes(self):
+        var_next_res_index = min(self.const_resolutions.index(self.var_resolution) + 1, len(self.const_resolutions) - 1)
+        self.var_resolution = self.const_resolutions[var_next_res_index]
         self.strvar_resolution.set(str(self.var_resolution[0]) + 'x' + str(self.var_resolution[1]))
-    def lowRes(self):
-        self.var_resolution = self.const_resolutions[0]
+    def lowerRes(self):
+        var_next_res_index = max(self.const_resolutions.index(self.var_resolution) - 1, 0)
+        self.var_resolution = self.const_resolutions[var_next_res_index]
         self.strvar_resolution.set(str(self.var_resolution[0]) + 'x' + str(self.var_resolution[1]))
     
     def apply(self):
@@ -278,8 +285,14 @@ class GUI(tk.Tk):
         self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
     
     def saveImage(self):
+        fileName = (
+            str(self.viewport.fractal) + '_' 
+            + 'x' + str(self.viewport.zoom) + '_' 
+            + str(self.viewport.resolution[0]) + 'x' + str(self.viewport.resolution[1])
+            + '.png'
+        )
         try:
-            plt.imsave(str(self.viewport.fractal) + '.png', self.image, cmap=self.viewport.colormap)
+            plt.imsave(fileName, self.image, cmap=self.viewport.colormap)
         except Exception as error:
             self.showError(error)
     
