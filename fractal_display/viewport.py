@@ -4,11 +4,11 @@ Classes
     Viewport
 """
 
-from . import complex_fractal as cplxf # Fractal()
-from . import complex_plane as cplxp # Plane()
 import numpy as np # np arrays
-import matplotlib.cm as mplcm # get_cmap
+import matplotlib.cm as mplcm # get_cmap()
 import matplotlib.pyplot as plt # colormaps()
+from . import complex_fractal as cplxf
+from . import complex_plane as cplxp
 
 
 class Viewport:
@@ -25,11 +25,11 @@ class Viewport:
         size: tuple[float,float]
             Size of the observed plane.
         resolution: tuple[int,int]
-            Number of points along each direction.
+            Pixel resolution.
         offset: tuple[float,float]
             Position of the center point in complex plane.
         zoom: float
-            Zoom value (> 1: zoom in; < 1: zoom out).
+            Zoom value.
         colormap: str
             Name of matplotlib colormap used to colorize RGB image.
     Methods
@@ -82,7 +82,7 @@ class Viewport:
     
     @property
     def resolution(self) -> tuple[int,int]:
-        """Number of points along each direction.
+        """Pixel resolution.
         Used as the number of points along each direction.
         Must be positive non zero.
         resolution[0]: X axis

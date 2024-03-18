@@ -1,3 +1,7 @@
+"""
+This is an example of fractal display program launching.
+"""
+
 from fractal_display.gui import GUI
 
 

@@ -4,7 +4,7 @@ Classes
     Plane
 """
 
-import numpy as np # numpy arrays handling
+import numpy as np # numpy arrays
 
 
 class Plane:

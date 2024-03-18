@@ -18,8 +18,7 @@ class Fractal(ABC):
         stability(complex): float
         escape_count(complex): int
         __str__(): str
-    """
-    
+    """    
     @abstractmethod
     def stability(self, candidate: complex) -> float:
         pass
@@ -100,7 +99,7 @@ class JuliaSet(Fractal):
         z = z_0
         for iteration in range(self.max_iterations):
             z = z ** 2 + self.c
-            if abs(z) > 2:
+            if abs(z) > 2:  # numbers whose modulus is greater than 2 are considered to big
                 return iteration
         return self.max_iterations
     
@@ -165,7 +164,7 @@ class MandelbrotSet(Fractal):
         z = 0
         for iteration in range(self.max_iterations):
             z = z ** 2 + c
-            if abs(z) > 2:
+            if abs(z) > 2: # numbers whose modulus is greater than 2 are considered to big
                 return iteration
         return self.max_iterations
     

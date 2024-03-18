@@ -8,7 +8,6 @@ import complex_fractal as cplxf
 
 
 class TestFractal(unittest.TestCase):
-
     def test_instantiation(self):
         with self.assertRaises(TypeError):
             fractal = cplxf.Fractal()

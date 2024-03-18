@@ -2,10 +2,10 @@
 """
 
 import unittest
+import numpy as np # array(), array_equal()
 import sys
 sys.path.append('..')
 import complex_plane as cplxp
-import numpy as np # array(), array_equal()
 
 class TestPlane(unittest.TestCase):
 
