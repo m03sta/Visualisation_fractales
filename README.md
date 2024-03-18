@@ -36,15 +36,20 @@ The backend program is based on object oriented programming (OOP). The UML diagr
 
 We used a TKinter interface to allow the user to display fractals through different parameters. An example is shown in following picture:
 
-![Example gui](gui_example "Example of user interface")
+![Example gui](gui_example.png "Example of user interface")
 
 We created a class *GUI* to simplify its use inside code. Since it inherits from Tk() windows, main script can call it as other TKinter windows, regardless whath it is inside.
 
 User can modify fractal parameters such as the number of maximum iterations and $c$ for Julia sets.
+
 User can choose between three resolution: low (640x480), middle (1024x768), and high (2048x1536). Each influences the time of computation. Fractals image format is 4:3.
+
 User can choose amoung all available matplotlib colormaps.
+
 User can zoom in and out by using buttons (+/-0.5 zoom), or directly by entering the desired zoom value.
+
 User can navigate inside complex plane by using arrows pad, or by entering the center point of interest.
+
 Finally, user can apply changes to generate fractal image, save it and quit.
 
 ## File tree
