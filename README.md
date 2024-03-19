@@ -44,7 +44,7 @@ User can modify fractal parameters such as the number of maximum iterations and 
 
 User can choose between three resolution: low (640x480), middle (1024x768), and high (2048x1536). Each influences the time of computation. Fractals image format is 4:3.
 
-User can choose amoung all available matplotlib colormaps.
+User can choose among all available matplotlib colormaps.
 
 User can zoom in and out by using buttons (+/-0.5 zoom), or directly by entering the desired zoom value.
 
